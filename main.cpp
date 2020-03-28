@@ -5,6 +5,10 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+
+    QApplication::setOrganizationName("CoreOfDevelop");
+    QApplication::setApplicationName("Staff");
+
     MainWindow w;
     w.show();
     return a.exec();

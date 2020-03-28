@@ -1,12 +1,17 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(QWidget *parent, QString name)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     this->setWindowTitle("Сотрудники");
+
+    settings = new QSettings ("settings.ini", QSettings::IniFormat, this);
+        setObjectName(name);
+        setWindowTitle(name);
+        loadSettings();
 
         /* Первым делом необходимо создать объект для работы с базой данных
          * и инициализировать подключение к базе данных
@@ -41,7 +46,48 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    saveSattings();
     delete ui;
+}
+
+void MainWindow::saveSattings()
+{
+    settings->beginGroup("forms");
+    settings->beginGroup(objectName());
+    settings->setValue("geometryMain", geometry());
+    settings->endGroup();
+    settings->endGroup();
+    settings->beginGroup("Colum");
+    for (int i = 0; i < 6; i++) {
+        settings->setValue("Colum" + QString::number(i), Column[i]);
+    }
+    settings->endGroup();
+    settings->beginGroup("Filter");
+    for (int i = 0; i < 4; i++) {
+        settings->setValue("Filter" + QString::number(i), Month[i]);
+        qDebug() << Month[i];
+    }
+    settings->endGroup();
+}
+
+void MainWindow::loadSettings()
+{
+    settings->beginGroup("forms");
+    settings->beginGroup(objectName());
+    setGeometry(settings->value("geometryMain", QRect(300,200,600,300)).toRect());
+    settings->endGroup();
+    settings->endGroup();
+    settings->beginGroup("Colum");
+    for (int i = 0; i < 6; i++) {
+        Column[i] = settings->value("Colum" + QString::number(i), Column[i]).toBool() ;
+    }
+    settings->endGroup();
+    settings->beginGroup("Filter");
+    for (int i = 0; i < 4; i++) {
+        Month[i] = settings->value("Filter" + QString::number(i), Month[i]).toInt();
+        qDebug() << Month[i];
+    }
+    settings->endGroup();
 }
 
 

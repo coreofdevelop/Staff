@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QSqlTableModel>
+#include <QSettings>
 
 #include "database.h"
 #include "editform.h"
@@ -19,8 +20,12 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(QWidget *parent = nullptr, QString name = "Staff");
     ~MainWindow();
+
+    // Функции загрузки и сохранения настроек
+    void saveSattings();
+    void loadSettings();
 
 private slots:
     void on_addEmloyee_triggered();
@@ -44,6 +49,7 @@ private:
     DataBase                    *db;
     QSqlTableModel              *modelStaff;
     FilterProxyModel            *filter;
+    QSettings                   *settings;
     SetForm                     *setForm;
 
     // Настройки программы
