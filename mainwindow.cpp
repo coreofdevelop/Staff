@@ -113,11 +113,15 @@ void MainWindow::createUI()
     //ui->tableView->setModel(modelStaff);     // Устанавливаем модель на TableView
         ui->tableView->setModel(filter);
         ui->tableView->setColumnHidden(0, true);    // Скрываем колонку с id записей
-        //настройки отображения колонок
-        ui->tableView->setColumnHidden(4, !Column[0]);
-        ui->tableView->setColumnHidden(5, !Column[1]);
-        ui->tableView->setColumnHidden(6, !Column[2]);
-        ui->tableView->setColumnHidden(7, !Column[3]);
+
+        //настройки отображения колонок подгружаемые из файла настроек
+        ui->tableView->setColumnHidden(2, !Column[0]);
+        ui->tableView->setColumnHidden(4, !Column[1]);
+        ui->tableView->setColumnHidden(5, !Column[2]);
+        ui->tableView->setColumnHidden(6, !Column[3]);
+        ui->tableView->setColumnHidden(7, !Column[4]);
+        ui->tableView->setColumnHidden(8, !Column[5]);
+
         // Разрешаем выделение строк
         ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
         // Устанавливаем режим выделения лишь одно строки в таблице
@@ -145,5 +149,21 @@ void MainWindow::on_tableView_doubleClicked(const QModelIndex &index)
         else
         {
             return;
+        }
+}
+
+void MainWindow::on_Settings_triggered()
+{
+    setForm = new SetForm ();
+        // Передаем текущие настройки
+        setForm->setSetting(Column, Month);
+
+        if(setForm->exec()) {
+            Column = setForm->columnSetting();
+            Month = setForm->monthSetting();
+            createUI();
+            this->slotUpdateModels();
+            qDebug() << Column;
+
         }
 }

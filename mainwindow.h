@@ -7,6 +7,7 @@
 #include "database.h"
 #include "editform.h"
 #include "filterproxymodel.h"
+#include "setform.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -32,6 +33,8 @@ private slots:
 
     void on_tableView_doubleClicked(const QModelIndex &index);
 
+    void on_Settings_triggered();
+
 private:
     void setupModel(const QString &tableName, const QStringList &headers);
     void createUI();
@@ -41,6 +44,7 @@ private:
     DataBase                    *db;
     QSqlTableModel              *modelStaff;
     FilterProxyModel            *filter;
+    SetForm                     *setForm;
 
     // Настройки программы
     QList<bool> Column{1,1,1,1,1,1,1};

@@ -20,17 +20,20 @@ SOURCES += \
     editform.cpp \
     filterproxymodel.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    setform.cpp
 
 HEADERS += \
     database.h \
     editform.h \
     filterproxymodel.h \
-    mainwindow.h
+    mainwindow.h \
+    setform.h
 
 FORMS += \
     editform.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    setform.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
