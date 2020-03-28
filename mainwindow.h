@@ -40,6 +40,8 @@ private slots:
 
     void on_Settings_triggered();
 
+    void on_SelectionChanged();
+
 private:
     void setupModel(const QString &tableName, const QStringList &headers);
     void createUI();

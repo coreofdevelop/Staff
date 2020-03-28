@@ -187,6 +187,9 @@
    </property>
   </action>
   <action name="changeEmployee">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="resources.qrc">
      <normaloff>:/resource/img/edit/change.png</normaloff>:/resource/img/edit/change.png</iconset>
@@ -196,6 +199,9 @@
    </property>
   </action>
   <action name="deleteEmployee">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="resources.qrc">
      <normaloff>:/resource/img/edit/user-.png</normaloff>:/resource/img/edit/user-.png</iconset>
@@ -223,6 +229,9 @@
    </property>
   </action>
   <action name="filterMed">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="resources.qrc">
      <normaloff>:/resource/img/insrument/+.png</normaloff>:/resource/img/insrument/+.png</iconset>
@@ -232,6 +241,9 @@
    </property>
   </action>
   <action name="filterClouthes">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="resources.qrc">
      <normaloff>:/resource/img/insrument/clothes.png</normaloff>:/resource/img/insrument/clothes.png</iconset>
@@ -241,6 +253,9 @@
    </property>
   </action>
   <action name="filterVacation">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="resources.qrc">
      <normaloff>:/resource/img/insrument/vacation.png</normaloff>:/resource/img/insrument/vacation.png</iconset>

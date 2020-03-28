@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent, QString name)
         setWindowTitle(name);
         loadSettings();
 
+
         /* Первым делом необходимо создать объект для работы с базой данных
          * и инициализировать подключение к базе данных
          * */
@@ -167,6 +168,10 @@ void MainWindow::createUI()
         ui->tableView->setColumnHidden(6, !Column[3]);
         ui->tableView->setColumnHidden(7, !Column[4]);
         ui->tableView->setColumnHidden(8, !Column[5]);
+        // включение отключение кнопок фильтра
+        ui->filterMed->setEnabled(Column[1]);
+        ui->filterClouthes->setEnabled(Column[2]);
+        ui->filterVacation->setEnabled(Column[3]);
 
         // Разрешаем выделение строк
         ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -180,6 +185,12 @@ void MainWindow::createUI()
         ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
         // Разрешаем сортировку
         ui->tableView->setSortingEnabled(true);
+
+        // соеденяем сигнал выбора ячейки, с нашим слотом выключения кнопок удаления и редактиорования сотрудника
+        connect(ui->tableView->selectionModel(),SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
+                    this,SLOT(on_SelectionChanged()));
+
+
 
 }
 
@@ -212,4 +223,17 @@ void MainWindow::on_Settings_triggered()
             qDebug() << Column;
 
         }
+}
+
+void MainWindow::on_SelectionChanged()
+{
+    if (ui->tableView->selectionModel()->selectedRows().isEmpty())
+    {
+        ui->deleteEmployee->setEnabled(false);
+        ui->changeEmployee->setEnabled(false);
+     }
+    else {
+        ui->deleteEmployee->setEnabled(true);
+        ui->changeEmployee->setEnabled(true);
+    }
 }
