@@ -64,7 +64,7 @@ void EditForm::setupModel()
         mapper = new QDataWidgetMapper();
         mapper->setModel(model);
         mapper->addMapping(ui->lineEditName , 1);
-        mapper->addMapping(ui->lineEditPhone, 2);
+        mapper->addMapping(ui->lineEditPosition, 2);
         mapper->addMapping(ui->dateEditPass, 3);
         mapper->addMapping(ui->dateEditMed, 4);
         mapper->addMapping(ui->dateEditClothes, 5);
@@ -76,4 +76,17 @@ void EditForm::setupModel()
         mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
 
+}
+
+void EditForm::on_ButtonOk_clicked()
+{
+    mapper->submit();
+    model->submitAll();
+    emit signalReady();
+    this->close();
+}
+
+void EditForm::on_ButtonCancel_clicked()
+{
+    this->close();
 }

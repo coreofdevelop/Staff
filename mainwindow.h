@@ -6,6 +6,7 @@
 
 #include "database.h"
 #include "editform.h"
+#include "filterproxymodel.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -21,7 +22,6 @@ public:
     ~MainWindow();
 
 private slots:
-
     void on_addEmloyee_triggered();
 
     void on_addTable_triggered();
@@ -30,8 +30,20 @@ private slots:
 
     void slotEditRecord(int id);
 
+    void on_tableView_doubleClicked(const QModelIndex &index);
+
+private:
+    void setupModel(const QString &tableName, const QStringList &headers);
+    void createUI();
+
 private:
     Ui::MainWindow              *ui;
     DataBase                    *db;
+    QSqlTableModel              *modelStaff;
+    FilterProxyModel            *filter;
+
+    // Настройки программы
+    QList<bool> Column{1,1,1,1,1,1,1};
+    QList<int> Month{3,2,0,0};
 };
 #endif // MAINWINDOW_H

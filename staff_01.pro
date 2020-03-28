@@ -18,12 +18,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     database.cpp \
     editform.cpp \
+    filterproxymodel.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     database.h \
     editform.h \
+    filterproxymodel.h \
     mainwindow.h
 
 FORMS += \

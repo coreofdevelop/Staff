@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>623</width>
-    <height>310</height>
+    <width>996</width>
+    <height>272</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,7 +25,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>623</width>
+     <width>996</width>
      <height>20</height>
     </rect>
    </property>
@@ -55,6 +55,7 @@
     <addaction name="filterMed"/>
     <addaction name="filterClouthes"/>
     <addaction name="filterVacation"/>
+    <addaction name="filterReset"/>
     <addaction name="separator"/>
     <addaction name="newDatabase"/>
     <addaction name="addTable"/>
@@ -74,7 +75,68 @@
    <addaction name="menu_4"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBarFile">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="open"/>
+   <addaction name="saveAs"/>
+  </widget>
+  <widget class="QToolBar" name="toolBarEdit">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="addEmloyee"/>
+   <addaction name="changeEmployee"/>
+   <addaction name="deleteEmployee"/>
+  </widget>
+  <widget class="QToolBar" name="toolBarInstrument">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="filterPass"/>
+   <addaction name="filterMed"/>
+   <addaction name="filterClouthes"/>
+   <addaction name="filterVacation"/>
+   <addaction name="filterReset"/>
+   <addaction name="separator"/>
+   <addaction name="Settings"/>
+  </widget>
+  <widget class="QToolBar" name="toolBarHelp">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="help"/>
+  </widget>
   <action name="open">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/resource/img/file/open.png</normaloff>:/resource/img/file/open.png</iconset>
+   </property>
    <property name="text">
     <string>Открыть файл БД</string>
    </property>
@@ -83,6 +145,13 @@
    </property>
   </action>
   <action name="save">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/resource/img/file/save.png</normaloff>:/resource/img/file/save.png</iconset>
+   </property>
    <property name="text">
     <string>Сохранить изменения</string>
    </property>
@@ -91,61 +160,109 @@
    </property>
   </action>
   <action name="addEmloyee">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/resource/img/edit/user+.png</normaloff>:/resource/img/edit/user+.png</iconset>
+   </property>
    <property name="text">
     <string>Добавить сотрудника</string>
    </property>
   </action>
   <action name="quit">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/resource/img/file/power-off.png</normaloff>:/resource/img/file/power-off.png</iconset>
+   </property>
    <property name="text">
     <string>Выход</string>
    </property>
   </action>
   <action name="addTable">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/resource/img/insrument/database-table-add.png</normaloff>:/resource/img/insrument/database-table-add.png</iconset>
+   </property>
    <property name="text">
     <string>Создать таблицу сотрудников</string>
    </property>
   </action>
   <action name="changeEmployee">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/resource/img/edit/change.png</normaloff>:/resource/img/edit/change.png</iconset>
+   </property>
    <property name="text">
     <string>Редактировать сотрудника</string>
    </property>
   </action>
   <action name="deleteEmployee">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/resource/img/edit/user-.png</normaloff>:/resource/img/edit/user-.png</iconset>
+   </property>
    <property name="text">
     <string>Удалить сотрудника</string>
    </property>
   </action>
   <action name="saveAs">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/resource/img/file/save_as.png</normaloff>:/resource/img/file/save_as.png</iconset>
+   </property>
    <property name="text">
     <string>Сохранить в файл БД</string>
    </property>
   </action>
   <action name="filterPass">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/resource/img/insrument/pass.png</normaloff>:/resource/img/insrument/pass.png</iconset>
+   </property>
    <property name="text">
     <string>Отфильтровать по дате пропуска</string>
    </property>
   </action>
   <action name="filterMed">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/resource/img/insrument/+.png</normaloff>:/resource/img/insrument/+.png</iconset>
+   </property>
    <property name="text">
     <string>Отфильтровать по дате медосмотра</string>
    </property>
   </action>
   <action name="filterClouthes">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/resource/img/insrument/clothes.png</normaloff>:/resource/img/insrument/clothes.png</iconset>
+   </property>
    <property name="text">
     <string>Отфильтровать по дате выдачи спецодежды</string>
    </property>
   </action>
   <action name="filterVacation">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/resource/img/insrument/vacation.png</normaloff>:/resource/img/insrument/vacation.png</iconset>
+   </property>
    <property name="text">
     <string>Отфильтровать оп дате отпуска</string>
    </property>
   </action>
   <action name="Settings">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/resource/img/insrument/settings.png</normaloff>:/resource/img/insrument/settings.png</iconset>
+   </property>
    <property name="text">
     <string>Прарметры...</string>
    </property>
   </action>
   <action name="help">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/resource/img/help/book.png</normaloff>:/resource/img/help/book.png</iconset>
+   </property>
    <property name="text">
     <string>Вызов справки</string>
    </property>
@@ -156,11 +273,26 @@
    </property>
   </action>
   <action name="newDatabase">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/resource/img/file/new.png</normaloff>:/resource/img/file/new.png</iconset>
+   </property>
    <property name="text">
     <string>Создать базу данных сотрудников</string>
    </property>
   </action>
+  <action name="filterReset">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/resource/img/insrument/no-filter.png</normaloff>:/resource/img/insrument/no-filter.png</iconset>
+   </property>
+   <property name="text">
+    <string>Сбросить фильтр</string>
+   </property>
+  </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

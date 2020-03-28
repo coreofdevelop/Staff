@@ -21,6 +21,14 @@ public:
     explicit EditForm(int row = -1, QWidget *parent = nullptr);
     ~EditForm();
 
+signals:
+    void signalReady();
+
+private slots:
+    void on_ButtonOk_clicked();
+
+    void on_ButtonCancel_clicked();
+
 private:
     void setupModel();
 
