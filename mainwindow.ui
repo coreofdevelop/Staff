@@ -283,6 +283,10 @@
    </property>
   </action>
   <action name="about">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/resource/img/help/about.png</normaloff>:/resource/img/help/about.png</iconset>
+   </property>
    <property name="text">
     <string>О программе...</string>
    </property>

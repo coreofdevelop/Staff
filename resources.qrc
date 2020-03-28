@@ -21,5 +21,6 @@
         <file>img/insrument/vacation.png</file>
         <file>img/calendar.png</file>
         <file>img/user.png</file>
+        <file>img/help/about.png</file>
     </qresource>
 </RCC>

@@ -188,7 +188,13 @@ void MainWindow::createUI()
 
         // соеденяем сигнал выбора ячейки, с нашим слотом выключения кнопок удаления и редактиорования сотрудника
         connect(ui->tableView->selectionModel(),SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
+                   this,SLOT(on_SelectionChanged()));
+        // отмена выбора
+        connect(ui->tableView->selectionModel(),SIGNAL(currentChanged(QModelIndex,QModelIndex)),
                     this,SLOT(on_SelectionChanged()));
+
+
+
 
 
 
