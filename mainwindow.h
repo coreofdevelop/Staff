@@ -4,7 +4,8 @@
 #include <QMainWindow>
 #include <QSqlTableModel>
 
-#include <database.h>
+#include "database.h"
+#include "editform.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -20,7 +21,14 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_add_table_triggered();
+
+    void on_addEmloyee_triggered();
+
+    void on_addTable_triggered();
+
+    void slotUpdateModels();
+
+    void slotEditRecord(int id);
 
 private:
     Ui::MainWindow              *ui;

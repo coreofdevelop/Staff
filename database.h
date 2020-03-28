@@ -15,9 +15,11 @@
 
 #define STAFF_TABLE        "laboratory"
 #define STAFF_NAME         "Имя"
+#define STAFF_POSITION     "Должность"
 #define STAFF_PASS         "Пропуск"
 #define STAFF_MEDIC        "Медосмотр"
 #define STAFF_CLOTHES      "Спецодежда"
+#define STAFF_VACATION     "Отпуск"
 #define STAFF_PHONE        "Телефон"
 #define STAFF_BIRTH        "Дата рождения"
 

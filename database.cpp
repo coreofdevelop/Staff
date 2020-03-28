@@ -31,12 +31,14 @@ bool DataBase::inserIntoStaffTable(const QVariantList &data)
          * для подстановки данных из QVariantList
          * */
         query.prepare("INSERT INTO " STAFF_TABLE " ( " STAFF_NAME ", "
+                                                        STAFF_POSITION ", "
                                                         STAFF_PASS ", "
                                                         STAFF_MEDIC ", "
                                                         STAFF_CLOTHES ", "
+                                                        STAFF_VACATION ", "
                                                         STAFF_PHONE ", "
                                                         STAFF_BIRTH " ) "
-                      "VALUES (?, ?, ?, ?, ?, ?)");
+                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
         query.addBindValue(data[0].toString());
         query.addBindValue(data[1].toString());
         query.addBindValue(data[2].toString());
@@ -63,9 +65,11 @@ bool DataBase::createStaffTable()
         if(!query.exec( "CREATE TABLE " STAFF_TABLE " ("
                                 "id INTEGER PRIMARY KEY AUTOINCREMENT, "
                                 STAFF_NAME  " VARCHAR(255)    NOT NULL,"
+                                STAFF_POSITION    " VARCHAR(32),"
                                 STAFF_PASS        " DATE,"
                                 STAFF_MEDIC       " DATE,"
                                 STAFF_CLOTHES     " DATE,"
+                                STAFF_VACATION    " DATE,"
                                 STAFF_PHONE       " VARCHAR(36),"
                                 STAFF_BIRTH       " DATE"
                             " )"

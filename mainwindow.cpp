@@ -26,7 +26,32 @@ MainWindow::~MainWindow()
 }
 
 
-void MainWindow::on_add_table_triggered()
+
+void MainWindow::on_addEmloyee_triggered()
+{
+    /* Создаем диалог и подключаем его сигнал завершения работы
+         * к слоту обновления вида модели представления данных
+         * */
+        EditForm *editForm = new EditForm();
+        connect(editForm, SIGNAL(signalReady()), this, SLOT(slotUpdateModels()));
+
+        /* Выполняем запуск диалогового окна
+         * */
+        editForm->setWindowTitle(tr("Добавить Сотрудника"));
+        editForm->exec();
+}
+
+void MainWindow::on_addTable_triggered()
 {
     db->createStaffTable();
+}
+
+void MainWindow::slotUpdateModels()
+{
+
+}
+
+void MainWindow::slotEditRecord(int id)
+{
+
 }

@@ -1,0 +1,25 @@
+<RCC>
+    <qresource prefix="/resource">
+        <file>img/edit/change.png</file>
+        <file>img/edit/user+.png</file>
+        <file>img/edit/user-.png</file>
+        <file>img/file/database.png</file>
+        <file>img/file/new.png</file>
+        <file>img/file/open.png</file>
+        <file>img/file/power-off.png</file>
+        <file>img/file/print.png</file>
+        <file>img/file/save.png</file>
+        <file>img/file/save_as.png</file>
+        <file>img/help/book.png</file>
+        <file>img/insrument/+.png</file>
+        <file>img/insrument/clothes.png</file>
+        <file>img/insrument/database-table-add.png</file>
+        <file>img/insrument/med.png</file>
+        <file>img/insrument/no-filter.png</file>
+        <file>img/insrument/pass.png</file>
+        <file>img/insrument/settings.png</file>
+        <file>img/insrument/vacation.png</file>
+        <file>img/calendar.png</file>
+        <file>img/user.png</file>
+    </qresource>
+</RCC>
