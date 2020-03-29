@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent, QString name)
 
     settings = new QSettings ("settings.ini", QSettings::IniFormat, this);
         setObjectName(name);
-        setWindowTitle(name);
+        //setWindowTitle(name);
         loadSettings();
 
 
@@ -66,7 +66,6 @@ void MainWindow::saveSattings()
     settings->beginGroup("Filter");
     for (int i = 0; i < 4; i++) {
         settings->setValue("Filter" + QString::number(i), Month[i]);
-        qDebug() << Month[i];
     }
     settings->endGroup();
 }
@@ -86,7 +85,6 @@ void MainWindow::loadSettings()
     settings->beginGroup("Filter");
     for (int i = 0; i < 4; i++) {
         Month[i] = settings->value("Filter" + QString::number(i), Month[i]).toInt();
-        qDebug() << Month[i];
     }
     settings->endGroup();
 }
@@ -115,6 +113,7 @@ void MainWindow::on_addTable_triggered()
 void MainWindow::slotUpdateModels()
 {
     modelStaff->select();
+    on_SelectionChanged();
 }
 
 void MainWindow::slotEditRecord(int id)
@@ -194,10 +193,6 @@ void MainWindow::createUI()
                     this,SLOT(on_SelectionChanged()));
 
 
-
-
-
-
 }
 
 void MainWindow::on_tableView_doubleClicked(const QModelIndex &index)
@@ -224,10 +219,9 @@ void MainWindow::on_Settings_triggered()
         if(setForm->exec()) {
             Column = setForm->columnSetting();
             Month = setForm->monthSetting();
+        // Обновим все данные в программе
             createUI();
             this->slotUpdateModels();
-            qDebug() << Column;
-
         }
 }
 
@@ -242,4 +236,81 @@ void MainWindow::on_SelectionChanged()
         ui->deleteEmployee->setEnabled(true);
         ui->changeEmployee->setEnabled(true);
     }
+}
+
+void MainWindow::on_filterPass_triggered()
+{
+    // Передаем настройку фильтрации и номер колонки
+    filter->setFilter(Month[0],3);
+    ui->statusbar->showMessage("Включен фильтр по пропуску! Показаны записи "
+                               "с датами в течении следующийх "+QString::number(Month[0])+ " месяцев.", 8000);
+}
+
+void MainWindow::on_filterMed_triggered()
+{
+    // Передаем настройку фильтрации и номер колонки
+    filter->setFilter(Month[1],4);
+    ui->statusbar->showMessage("Включен фильтр по медосмотру! Показаны записи "
+                               "с датами в течении следующийх "+QString::number(Month[1])+ " месяцев.", 8000);
+}
+
+void MainWindow::on_filterClouthes_triggered()
+{
+    // Передаем настройку фильтрации и номер колонки
+    filter->setFilter(Month[2],5);
+    ui->statusbar->showMessage("Включен фильтр по спецодежде! Показаны записи "
+                               "с датами в течении следующийх "+QString::number(Month[2])+ " месяцев.", 8000);
+}
+
+void MainWindow::on_filterVacation_triggered()
+{
+    // Передаем настройку фильтрации и номер колонки
+    filter->setFilter(Month[3],6);
+    ui->statusbar->showMessage("Включен фильтр по отпуску! Показаны записи "
+                               "с датами в течении следующийх "+QString::number(Month[3])+ " месяцев.", 8000);
+
+}
+
+void MainWindow::on_filterReset_triggered()
+{
+    // сброс фильтра
+    filter->resetFilter();
+    ui->statusbar->showMessage("Выключен фильтр!", 5000);
+}
+
+void MainWindow::on_changeEmployee_triggered()
+{
+    // Получаем индек ячейки
+    QModelIndex idIndex = ui->tableView->selectionModel()->selectedIndexes().first();
+    // Если индекс валиден
+    if (idIndex.isValid()){
+    int id = idIndex.data().toUInt();
+    slotEditRecord(id);
+    }
+    else
+    {
+        return;
+    }
+}
+
+void MainWindow::on_deleteEmployee_triggered()
+{
+    // Получаем индек ячейки
+    QModelIndex idIndex = ui->tableView->selectionModel()->selectedIndexes().first();
+    // Если индекс валиден
+    if (idIndex.isValid()){
+    int id = idIndex.data().toUInt();
+
+    if(db->removeRow(id)){
+        this->slotUpdateModels();
+        ui->statusbar->showMessage("Запись удалена!", 2000);
+        }else{
+            ui->statusbar->showMessage("Не удалось удалить запись", 2000);
+        }
+    }
+}
+
+void MainWindow::on_quit_triggered()
+{
+    this->close();
 }

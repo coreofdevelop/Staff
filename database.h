@@ -37,6 +37,8 @@ public:
         bool inserIntoStaffTable(const QVariantList &data);
         bool createStaffTable();
 
+        bool removeRow(int id);
+
 
 
 

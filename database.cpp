@@ -82,3 +82,14 @@ bool DataBase::createStaffTable()
         }
 
 }
+
+bool DataBase::removeRow(int id)
+{
+    // Формируем запрос на удаление строки с конкретным id
+    QSqlQuery query;
+    if(!query.exec( "DELETE FROM " STAFF_TABLE " WHERE id = "+QString::number(id))) {
+            return false;
+        } else {
+            return true;
+        }
+}

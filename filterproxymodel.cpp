@@ -47,6 +47,8 @@ bool FilterProxyModel::filterAcceptsRow(int source_row, const QModelIndex &sourc
             return 120 > QDate::currentDate().daysTo(dateValue);
         case 5:
             return 150 > QDate::currentDate().daysTo(dateValue);
+        case 6:
+            return 180 > QDate::currentDate().daysTo(dateValue);
         }
     }
     // Если дата установлена не моделью, используем стандартный фильтр
