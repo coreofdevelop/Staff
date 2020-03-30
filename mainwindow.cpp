@@ -229,6 +229,7 @@ void MainWindow::on_Settings_triggered()
 
 void MainWindow::on_SelectionChanged()
 {
+    // прячем кнопки редактиования
     if (ui->tableView->selectionModel()->selectedRows().isEmpty())
     {
         ui->deleteEmployee->setEnabled(false);
@@ -297,18 +298,33 @@ void MainWindow::on_changeEmployee_triggered()
 
 void MainWindow::on_deleteEmployee_triggered()
 {
+    // С помощью QMessageBox уточним действительно ли удалять строку,
+    // но только установим свои названия кнопок
+    QMessageBox messageBox(QMessageBox::Question,
+                tr("Удаление записи из таблицы"),
+                tr("Вы уверены что хотите удалить запись?"),
+                QMessageBox::Yes | QMessageBox::No,
+                this);
+        messageBox.setButtonText(QMessageBox::Yes, tr("Да"));
+        messageBox.setButtonText(QMessageBox::No, tr("Нет"));
+        messageBox.exec();
+        // Если есть согласие
+       if(messageBox.clickedButton()->text() == tr("Да"))
+       {
+
     // Получаем индек ячейки
     QModelIndex idIndex = ui->tableView->selectionModel()->selectedIndexes().first();
     // Если индекс валиден
     if (idIndex.isValid()){
     int id = idIndex.data().toInt();
-
+    // Удаляем строку с нашим id
     if(db->removeRow(id)){
         this->slotUpdateModels();
         ui->statusbar->showMessage("Запись удалена!", 2000);
         }else{
             ui->statusbar->showMessage("Не удалось удалить запись", 2000);
         }
+    }
     }
 }
 
@@ -387,4 +403,9 @@ void MainWindow::on_newDatabase_triggered()
          // и таблицу отображения данных
          this->createUI();
     }
+}
+
+void MainWindow::on_about_triggered()
+{
+    QMessageBox::information(this, "О Программе...", "<p><b>Staff (Сотрудники)</b></p> <p>Автор: Духовской Н.Н. mail: mind_87@mail.ru <p>2020г");
 }

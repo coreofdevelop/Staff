@@ -168,6 +168,9 @@
    <property name="text">
     <string>Добавить сотрудника</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
   </action>
   <action name="quit">
    <property name="icon">
@@ -212,6 +215,9 @@
    </property>
    <property name="text">
     <string>Удалить сотрудника</string>
+   </property>
+   <property name="shortcut">
+    <string>Del</string>
    </property>
   </action>
   <action name="saveAs">
