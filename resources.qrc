@@ -22,5 +22,6 @@
         <file>img/calendar.png</file>
         <file>img/user.png</file>
         <file>img/help/about.png</file>
+        <file>img/insrument/reload.png</file>
     </qresource>
 </RCC>

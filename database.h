@@ -11,7 +11,6 @@
 
 /* Директивы имен таблицы, полей таблицы и базы данных */
 #define DATABASE_HOSTNAME   "Staff"
-#define DATABASE_NAME       "DataBase.db"
 
 #define STAFF_TABLE        "laboratory"
 #define STAFF_NAME         "Имя"
@@ -33,7 +32,8 @@ public:
         /* Методы для непосредственной работы с классом
          * Подключение к базе данных и вставка записей в таблицу
          * */
-        bool connectToDataBase();
+        bool connectToDataBase(QString fileName);
+        bool openDataBase(QString fileName);
         bool inserIntoStaffTable(const QVariantList &data);
         bool createStaffTable();
 

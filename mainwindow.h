@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QSqlTableModel>
 #include <QSettings>
+#include <QFileDialog>
 
 #include "database.h"
 #include "editform.h"
@@ -55,8 +56,16 @@ private slots:
 
     void on_quit_triggered();
 
+    void on_reloadBd_triggered();
+
+    void on_open_triggered();
+
+    void on_saveAs_triggered();
+
+    void on_newDatabase_triggered();
+
 private:
-    void setupModel(const QString &tableName, const QStringList &headers);
+    void setupModel(const QString &tableName);
     void createUI();
 
 private:
@@ -70,5 +79,6 @@ private:
     // Настройки программы
     QList<bool> Column{1,1,1,1,1,1,1};
     QList<int> Month{3,2,0,0};
+    QString fileName = "DataBase/DataBase.db";
 };
 #endif // MAINWINDOW_H

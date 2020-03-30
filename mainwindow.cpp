@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent, QString name)
          * и инициализировать подключение к базе данных
          * */
         db = new DataBase(this);
-        if(!db->connectToDataBase()){
+        if(!db->connectToDataBase(fileName)){
             ui->statusbar->showMessage("Ошибка подключения файла базы данных!", 5000);
         }else {
              ui->statusbar->showMessage("Seccess!", 2000);
@@ -28,17 +28,7 @@ MainWindow::MainWindow(QWidget *parent, QString name)
         /* Инициализируем модели для представления данных
              * с заданием названий колонок
              * */
-             this->setupModel(STAFF_TABLE,
-                              QStringList() << tr("id")
-                              << tr("Имя")
-                              << tr("Должность")
-                              << tr("Пропуск")
-                              << tr("Медосмотр")
-                              << tr("Спецодежда")
-                              << tr("Отпуск")
-                              << tr("Телефон")
-                              << tr("Дата рождения")
-                              );
+             this->setupModel(STAFF_TABLE);
                /* Инициализируем внешний вид таблицы с данными
                * */
                this->createUI();
@@ -133,21 +123,33 @@ void MainWindow::slotEditRecord(int id)
 
 }
 
-void MainWindow::setupModel(const QString &tableName, const QStringList &headers)
+void MainWindow::setupModel(const QString &tableName)
 {
 
     /* Производим инициализацию модели представления данных
     * */
+
+    filter = new FilterProxyModel(this);
     modelStaff = new QSqlTableModel(this);
+
     modelStaff->setTable(tableName);
     modelStaff->select();
 
-    filter = new FilterProxyModel(this);
     filter->setSourceModel(modelStaff);
 
 
     /* Устанавливаем названия колонок в таблице с сортировкой данных
     * */
+    QStringList headers = QStringList() << tr("id")
+    << tr("Имя")
+    << tr("Должность")
+    << tr("Пропуск")
+    << tr("Медосмотр")
+    << tr("Спецодежда")
+    << tr("Отпуск")
+    << tr("Телефон")
+    << tr("Дата рождения");
+
     for(int i = 0, j = 0; i < modelStaff->columnCount(); i++, j++){
        modelStaff->setHeaderData(i,Qt::Horizontal,headers[j]);
     }
@@ -201,7 +203,7 @@ void MainWindow::on_tableView_doubleClicked(const QModelIndex &index)
         QModelIndex idIndex = ui->tableView->model()->index(index.row(), 0, index.parent());
         // Если индекс валиден
         if (idIndex.isValid()){
-        int id = idIndex.data().toUInt();
+        int id = idIndex.data().toInt();
         slotEditRecord(id);
         }
         else
@@ -284,7 +286,7 @@ void MainWindow::on_changeEmployee_triggered()
     QModelIndex idIndex = ui->tableView->selectionModel()->selectedIndexes().first();
     // Если индекс валиден
     if (idIndex.isValid()){
-    int id = idIndex.data().toUInt();
+    int id = idIndex.data().toInt();
     slotEditRecord(id);
     }
     else
@@ -299,7 +301,7 @@ void MainWindow::on_deleteEmployee_triggered()
     QModelIndex idIndex = ui->tableView->selectionModel()->selectedIndexes().first();
     // Если индекс валиден
     if (idIndex.isValid()){
-    int id = idIndex.data().toUInt();
+    int id = idIndex.data().toInt();
 
     if(db->removeRow(id)){
         this->slotUpdateModels();
@@ -313,4 +315,76 @@ void MainWindow::on_deleteEmployee_triggered()
 void MainWindow::on_quit_triggered()
 {
     this->close();
+}
+
+void MainWindow::on_reloadBd_triggered()
+{
+
+    if(!db->openDataBase(fileName)){
+        ui->statusbar->showMessage("Ошибка подключения файла базы данных!", 5000);
+    }else {
+         ui->statusbar->showMessage("Seccess!", 2000);
+         this->setupModel(STAFF_TABLE);
+         this->createUI();
+    }
+}
+
+void MainWindow::on_open_triggered()
+{
+
+    // для того что бы узнать имя файла, используем стандартный диалог выбора файла (QFileDialog)
+    QString filePath = QFileDialog::getOpenFileName(this, tr("Открыть файл базы данных"),
+                                                    fileName,
+                                                    tr("Файлы базы данных (*.db);;Все файлы (*.*)"));
+
+    if(filePath.isEmpty())
+        return;
+
+    fileName = filePath;
+
+    if(!db->openDataBase(fileName)){
+        ui->statusbar->showMessage("Ошибка подключения файла базы данных!", 5000);
+    }else {
+         ui->statusbar->showMessage("Seccess!", 2000);
+         //перед созданием новых новой модели удалим старую
+         delete filter;
+         delete modelStaff;
+         // инициализируем модель представлния
+         this->setupModel(STAFF_TABLE);
+         // и таблицу отображения данных
+         this->createUI();
+    }
+}
+
+void MainWindow::on_saveAs_triggered()
+{
+    QString filePath = QFileDialog::getSaveFileName(this, tr("Сохранить файл как"), "/DataBase",
+                                    tr("Файл базы данных (*.db);;Файл базы данных (*.*)"));
+    if(!filePath.isEmpty())
+    QFile::copy(fileName,filePath);
+}
+
+void MainWindow::on_newDatabase_triggered()
+{
+    // Получаем полное имя файла
+    QString filePath = QFileDialog::getSaveFileName(this, tr("Сохранить файл как"), "/DataBase",
+                                    tr("Файл базы данных (*.db);;Файл базы данных (*.*)"));
+    // Если оно не пустое
+    if(!filePath.isEmpty())
+        fileName = filePath;
+    // создаем новый файл БД
+    if(!db->openDataBase(fileName)){
+        ui->statusbar->showMessage("Ошибка подключения файла базы данных!", 5000);
+    }else {
+         ui->statusbar->showMessage("Seccess!", 2000);
+         // создаем таблицу сотрудников
+         db->createStaffTable();
+         //перед созданием новых новой модели удалим старую
+         delete filter;
+         delete modelStaff;
+         // инициализируем модель представлния
+         this->setupModel(STAFF_TABLE);
+         // и таблицу отображения данных
+         this->createUI();
+    }
 }

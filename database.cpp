@@ -5,19 +5,35 @@ DataBase::DataBase(QObject *parent) : QObject(parent)
 
 }
 
-bool DataBase::connectToDataBase()
+bool DataBase::connectToDataBase(QString fileName)
 {
     /* База данных открывается по заданному пути
          * и имени базы данных, если она существует
          * */
+
         db = QSqlDatabase::addDatabase("QSQLITE");
-        db.setHostName(DATABASE_HOSTNAME);
-        db.setDatabaseName("DataBase/" DATABASE_NAME);
+        //db.setHostName(DATABASE_HOSTNAME);
+        db.setDatabaseName(fileName);
         if(db.open()){
             return true;
         } else {
             return false;
         }
+}
+
+bool DataBase::openDataBase(QString fileName)
+{
+    // Если есть отурытая бд закрываем
+    if(db.isOpen())
+        db.close();
+
+    // устанавливаем новое имя и открываем
+    db.setDatabaseName(fileName);
+    if(db.open()){
+        return true;
+    } else {
+        return false;
+    }
 }
 
 bool DataBase::inserIntoStaffTable(const QVariantList &data)
