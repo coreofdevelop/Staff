@@ -2,6 +2,13 @@ QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+VERSION = 0.0.1
+QMAKE_TARGET_COMPANY = CoreOfDevelop
+QMAKE_TARGET_PRODUCT = Staff Portable
+QMAKE_TARGET_DESCRIPTION = Program for monitoring employee events
+QMAKE_TARGET_COPYRIGHT = Nikolay Duhovskoy
+TARGET = Staff
+
 CONFIG += c++11
 
 # The following define makes your compiler emit warnings if you use

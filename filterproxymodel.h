@@ -8,7 +8,7 @@ class FilterProxyModel : public QSortFilterProxyModel
 {
     Q_OBJECT
 public:
-    explicit FilterProxyModel(QObject *parent = NULL);
+    explicit FilterProxyModel(QObject *parent = nullptr);
     void setFilter(int monthBefore, int filterColum);
     void resetFilter();
 
@@ -18,7 +18,11 @@ private:
     //QDate _dateBefore;
 
 protected:
+    // Переопределенные методы
     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
+    QVariant data(const QModelIndex &index, int role) const;
+public:
+
 };
 
 #endif // FILTERPROXYMODEL_H

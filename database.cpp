@@ -12,7 +12,10 @@ bool DataBase::connectToDataBase(QString fileName)
          * */
 
         db = QSqlDatabase::addDatabase("QSQLITE");
-        //db.setHostName(DATABASE_HOSTNAME);
+        db.setHostName(DATABASE_HOSTNAME);
+
+        //if(!QFile::exists(fileName))return false;
+
         db.setDatabaseName(fileName);
         if(db.open()){
             return true;

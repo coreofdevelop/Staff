@@ -18,12 +18,24 @@ MainWindow::MainWindow(QWidget *parent, QString name)
          * и инициализировать подключение к базе данных
          * */
         db = new DataBase(this);
+
+        // Проверим существование файла
+        if(!QFile::exists(fileName)){
+            QMessageBox::critical(this, tr("Ошибка открытия файла базы данных"), tr("Не удалось открыть базу данных, файл не был найден! "
+                                                                             "<p>Укажите пожалуйста путь к файлу."));
+            QString filePath = QFileDialog::getOpenFileName(this, tr("Открыть файл базы данных"),
+                                                            fileName,
+                                                            tr("Файлы базы данных (*.db);;Все файлы (*.*)"));
+            if(filePath.isEmpty())
+                return;
+
+            fileName = filePath;
+        }
+
         if(!db->connectToDataBase(fileName)){
             ui->statusbar->showMessage("Ошибка подключения файла базы данных!", 5000);
         }else {
              ui->statusbar->showMessage("Seccess!", 2000);
-        }
-
 
         /* Инициализируем модели для представления данных
              * с заданием названий колонок
@@ -33,6 +45,7 @@ MainWindow::MainWindow(QWidget *parent, QString name)
                * */
                this->createUI();
 
+}
 }
 
 MainWindow::~MainWindow()
@@ -46,6 +59,11 @@ void MainWindow::saveSattings()
     settings->beginGroup("forms");
     settings->beginGroup(objectName());
     settings->setValue("geometryMain", geometry());
+    settings->endGroup();
+    settings->endGroup();
+    settings->beginGroup("SettingsTable");
+    settings->beginGroup("size");
+    settings->setValue("tableSize", ui->tableView->geometry());
     settings->endGroup();
     settings->endGroup();
     settings->beginGroup("Colum");
@@ -65,6 +83,11 @@ void MainWindow::loadSettings()
     settings->beginGroup("forms");
     settings->beginGroup(objectName());
     setGeometry(settings->value("geometryMain", QRect(300,200,600,300)).toRect());
+    settings->endGroup();
+    settings->endGroup();
+    settings->beginGroup("SettingsTable");
+    settings->beginGroup("size");
+    ui->tableView->setGeometry(settings->value("tableSize", QRect(0,0,700,250)).toRect());
     settings->endGroup();
     settings->endGroup();
     settings->beginGroup("Colum");
@@ -137,7 +160,6 @@ void MainWindow::setupModel(const QString &tableName)
 
     filter->setSourceModel(modelStaff);
 
-
     /* Устанавливаем названия колонок в таблице с сортировкой данных
     * */
     QStringList headers = QStringList() << tr("id")
@@ -148,7 +170,7 @@ void MainWindow::setupModel(const QString &tableName)
     << tr("Спецодежда")
     << tr("Отпуск")
     << tr("Телефон")
-    << tr("Дата рождения");
+    << tr("Дата Рождения");
 
     for(int i = 0, j = 0; i < modelStaff->columnCount(); i++, j++){
        modelStaff->setHeaderData(i,Qt::Horizontal,headers[j]);
@@ -159,6 +181,7 @@ void MainWindow::setupModel(const QString &tableName)
 void MainWindow::createUI()
 {
     //ui->tableView->setModel(modelStaff);     // Устанавливаем модель на TableView
+    //setColumnsWidth();
         ui->tableView->setModel(filter);
         ui->tableView->setColumnHidden(0, true);    // Скрываем колонку с id записей
 
@@ -178,10 +201,10 @@ void MainWindow::createUI()
         ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
         // Устанавливаем режим выделения лишь одно строки в таблице
         ui->tableView->setSelectionMode(QAbstractItemView::SingleSelection);
-        // Устанавливаем разтяжение колонок
-        ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-        // Устанавливаем размер колонок по содержимому
-        ui->tableView->resizeColumnsToContents();
+
+        // Устанавливаем размеры колонок
+        this->setColumnsWidth();
+
         // Запрещаем отдельное редактирование ячейки
         ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
         // Разрешаем сортировку
@@ -195,6 +218,55 @@ void MainWindow::createUI()
                     this,SLOT(on_SelectionChanged()));
 
 
+}
+
+void MainWindow::setColumnsWidth()
+{
+    QRect rect = ui->tableView->rect();
+    // Зададим приоритеты столбцам
+    float columnPriority[] = {0.0f, 1.0f, 0.75f, 0.5f, 0.5f, 0.5f, 0.5f, 0.6f, 0.5f};
+    // Количество отображаемых столбцов
+    int columnCount = 0;
+    // Последний отображаемый столбец
+    int lastVisibleColumn = 0;
+    // Сумма приоритетов для нахождения коэфициента
+    float columnPrioritySum = 0;
+    // массив для хранения номеров столбцов
+    int columnNumb[9];
+    int j = 0;
+    for (int i = 0; i < 9; i++){
+        if(!ui->tableView->isColumnHidden(i)){
+            columnCount++;
+            columnPrioritySum += columnPriority[i];
+            columnNumb[j] = i;
+            j++;
+        }
+    }
+
+    // Зададим размеры всем отображаемым столбцам, кроме последнего
+    for (int i = 0; i < columnCount-1; i++){
+        ui->tableView->setColumnWidth(columnNumb[i],
+                       int(columnPriority[columnNumb[i]]*float(rect.width()-15)/columnPrioritySum));
+    }
+
+    // Найедм последний отображенный столбец
+    for (int i=0; i < 9; i++) {
+        if(!ui->tableView->isColumnHidden(i)){
+            lastVisibleColumn = i;
+        }
+    }
+
+    // Последний столбец растянем до конца оставшейся таблицы (это для компенсации погрешностей в расчетах ширины столбцов)
+     ui->tableView->horizontalHeader()->setSectionResizeMode(lastVisibleColumn , QHeaderView::Stretch);
+
+}
+
+void MainWindow::resizeEvent(QResizeEvent *event)
+{
+    // Переопределенная функция (обработчик событий) для получения события об изменении размера основного окна
+
+    QWidget::resizeEvent(event);
+    this->setColumnsWidth();
 }
 
 void MainWindow::on_tableView_doubleClicked(const QModelIndex &index)
@@ -376,22 +448,32 @@ void MainWindow::on_saveAs_triggered()
 {
     QString filePath = QFileDialog::getSaveFileName(this, tr("Сохранить файл как"), "/DataBase",
                                     tr("Файл базы данных (*.db);;Файл базы данных (*.*)"));
-    if(!filePath.isEmpty())
-    QFile::copy(fileName,filePath);
+    if(!filePath.isEmpty()){
+        // Если файл существует удалим перед копированием
+        if(!QFile::copy(fileName,filePath)){
+            QFile::remove(filePath);
+            QFile::copy(fileName,filePath);
+        }
+    }
 }
 
 void MainWindow::on_newDatabase_triggered()
 {
     // Получаем полное имя файла
-    QString filePath = QFileDialog::getSaveFileName(this, tr("Сохранить файл как"), "/DataBase",
+    QString filePath = QFileDialog::getSaveFileName(this, tr("Сохранить файл как"), "/",
                                     tr("Файл базы данных (*.db);;Файл базы данных (*.*)"));
     // Если оно не пустое
-    if(!filePath.isEmpty())
-        fileName = filePath;
+    if(!filePath.isEmpty()) {
+       // Если файл существует удалим
+       if(QFile::exists(filePath))
+           QFile::remove(filePath);
+
+       fileName = filePath;
+
     // создаем новый файл БД
     if(!db->openDataBase(fileName)){
         ui->statusbar->showMessage("Ошибка подключения файла базы данных!", 5000);
-    }else {
+        }else {
          ui->statusbar->showMessage("Seccess!", 2000);
          // создаем таблицу сотрудников
          db->createStaffTable();
@@ -402,6 +484,7 @@ void MainWindow::on_newDatabase_triggered()
          this->setupModel(STAFF_TABLE);
          // и таблицу отображения данных
          this->createUI();
+        }
     }
 }
 

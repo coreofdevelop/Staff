@@ -55,3 +55,21 @@ bool FilterProxyModel::filterAcceptsRow(int source_row, const QModelIndex &sourc
     return QSortFilterProxyModel::filterAcceptsRow(source_row, source_parent);
 
 }
+
+QVariant FilterProxyModel::data(const QModelIndex &index, int role) const
+{
+    // Перегруженная функция для задания своего вырвнивания текста
+
+    // Укажем столбцы для изменения вырвнивания
+          if (index.column() == 3 || index.column() == 4 || index.column() == 5 || index.column() == 6 || index.column() == 8)
+          {
+             //Роль - выравнивание
+             if (role == Qt::TextAlignmentRole)
+             {
+                return Qt::AlignCenter;
+             }
+          }
+          return QSortFilterProxyModel::data(index, role);
+
+
+}

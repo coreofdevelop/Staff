@@ -62,6 +62,7 @@ private slots:
 private:
     void setupModel(const QString &tableName);
     void createUI();
+    void setColumnsWidth();
 
 private:
     Ui::MainWindow              *ui;
@@ -75,5 +76,8 @@ private:
     QList<bool> Column{1,1,1,1,1,1,1};
     QList<int> Month{3,2,0,0};
     QString fileName = "DataBase/DataBase.db";
+
+protected:
+    void resizeEvent(QResizeEvent *event);
 };
 #endif // MAINWINDOW_H
