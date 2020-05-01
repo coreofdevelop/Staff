@@ -11,13 +11,19 @@
 
 ## Внешний вид:
 
+
 Форма основного окна:
+
 ![alt text](screenshots/main_form.png "Форма основного окна")
 
+
 Форма редактора записей:
+
 ![alt text](screenshots/edit_form.png "Форма редактора записей")
 
+
 Форма окна настроек:
+
 ![alt text](screenshots/setting_form.png "Форма окна настроек")
 
 
